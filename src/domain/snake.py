@@ -1,4 +1,4 @@
-from snakepart import SnakePart
+from src.domain.snakepart import SnakePart
 class Snake:
     def __init__(self):
         xpozicija = 0.5
