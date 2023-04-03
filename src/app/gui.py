@@ -14,65 +14,40 @@ class Gui:
         self.clock = pygame.time.Clock()
     def narisi(self):
         self.screen.fill("white")
+        hranax, hranay = self.mapiraj(x=self.svet.hrana.x, y=self.svet.hrana.y)
+        hxs,hys = self.mapiraj(x=self.svet.hrana.size,y=self.svet.hrana.size)
         #pygame.draw.circle(self.screen, "red", (self.sirina/2, self.visina/2), 10)
-        hrana = pygame.draw.rect(self.screen,"red", [150,150,10,10])
-        kvadrat = pygame.draw.rect(self.screen, "darkgreen", [self.sirina/2, self.visina/2, 10, 10])
+        pygame.draw.rect(self.screen,"red", [hranax,hranay,hxs,hys])
+        xG,yG = self.mapiraj(x=self.svet.snake.glava.x, y=self.svet.snake.glava.y)
+        sizex, sizey = self.mapiraj(x=self.svet.snake.glava.size,y=self.svet.snake.glava.size)
+        pygame.draw.rect(self.screen, "darkgreen", [xG, yG, sizex, sizey])
         pygame.display.flip()
-        self.clock.tick(10)
+        self.clock.tick(8)
         #self.sirina += 10
+    def mapiraj(self,x,y):
+
+        x = x*self.sirina
+        y = y*self.visina
+        return x,y
 
     def premakni(self):
-        key_input = pygame.key.get_pressed()
-        press3 = 0
+        self.svet.snake.premakni()
 
-        if key_input[pygame.K_UP]:
-            press1 = 1
-            if press1 == 1:
-                self.visina -= 10
-                #self.sirina -= 10
-        if key_input[pygame.K_DOWN]:
-            press2 = 1
-            if press2 == 1:
-                self.visina += 10
-                #self.sirina -= 10
-            print("Dol")
-        if key_input[pygame.K_LEFT]:
-            press3 = 1
-            if press3 == 1:
-                #self.visina += 10
-                self.sirina -= 10
-                print(press3)
-        if key_input[pygame.K_RIGHT]:
-            press4 = 1
-            if press4 == 1:
-                #self.visina += 10
-                self.sirina += 10
-                print("Desna")
-        if press3 == 0:
-            self.sirina += 10
-            print(press3)
-        press3 = 1
-        #BORDERX
-        if self.sirina > 805:
-            self.sirina = 5
-        if self.sirina < -5:
-            self.sirina = 805
-        #BORDERY
-        if self.visina > 805:
-            self.visina = 5
-        if self.visina < -5:
-            self.visina = 805
-
-
-
-
-        #print("Narisi")
 
     def vnos(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        #print("Vnos")
+        key_input = pygame.key.get_pressed()
+
+        if key_input[pygame.K_UP]:
+            self.svet.snake.smer = "gor"
+        if key_input[pygame.K_DOWN]:
+            self.svet.snake.smer = "dol"
+        if key_input[pygame.K_LEFT]:
+            self.svet.snake.smer = "leva"
+        if key_input[pygame.K_RIGHT]:
+            self.svet.snake.smer = "desna"
 
     def konec(self)->bool:
         return False
